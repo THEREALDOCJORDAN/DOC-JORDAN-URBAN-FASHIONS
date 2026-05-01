@@ -24,6 +24,7 @@ import { Product, Design, WorkflowStep, DesignElement } from './types';
 import { DesignerCanvas } from './components/DesignerCanvas';
 import { generateDesignSuggestions, generatePatternImage } from './services/gemini';
 import { cn } from './lib/utils';
+import { products as staticProducts } from './data/products';
 
 // Asset Imports
 import HeroImg from './assets/hero.png';
@@ -33,7 +34,7 @@ import Collection2 from './assets/collection2.png';
 export default function App() {
   const [view, setView] = useState<'landing' | 'designer'>('landing');
   const [step, setStep] = useState<WorkflowStep>('select-product');
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(staticProducts);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [design, setDesign] = useState<Design>({
     id: crypto.randomUUID(),
@@ -56,11 +57,7 @@ export default function App() {
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
 
-  useEffect(() => {
-    fetch('/api/products')
-      .then(res => res.json())
-      .then(setProducts);
-  }, []);
+  // Static data initialization - no fetch needed
 
   const handleGenerateDesign = async () => {
     if (!theme) return;
