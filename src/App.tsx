@@ -11,16 +11,22 @@ import {
   Zap,
   Eye,
   Crown,
-  Heart
+  Heart,
+  ExternalLink
 } from 'lucide-react';
 import { products as staticProducts } from './data/products';
 
-// Brand Assets
-import DNTImg from './assets/dnt.png';
-import SkidRowJoeImg from './assets/skidrowjoe.png';
-import DivaImg from './assets/diva.png';
-import AlkamiImg from './assets/alkami.png';
-import HeroImg from './assets/hero.png';
+// Lifestyle Assets
+import DNTLifestyle from './assets/dnt.png';
+import SkidRowJoeLifestyle from './assets/skidrowjoe.png';
+import DivaLifestyle from './assets/diva.png';
+import AlkamiLifestyle from './assets/alkami.png';
+
+// Product Mockup Assets (Based on Actual Designs)
+import DNTMockup from './assets/dnt_mockup.png';
+import SkidRowJoeMockup from './assets/skidrowjoe_mockup.png';
+import DivaMockup from './assets/diva_mockup.png';
+import AlkamiMockup from './assets/alkami_mockup.png';
 
 const BRANDS = [
   {
@@ -28,10 +34,11 @@ const BRANDS = [
     name: 'DNT',
     tagline: 'Mindful Streetwear',
     color: '#FFD700', // Gold
-    bg: 'radial-gradient(circle at center, #4B0082, #000000)', // Indigo/Black
+    bg: 'radial-gradient(circle at center, #4B0082, #000000)',
     symbol: '🕉️',
     icon: Zap,
-    image: DNTImg,
+    image: DNTLifestyle,
+    mockup: DNTMockup,
     description: 'High-frequency spiritual hardware. Sacred geometry meets the street.',
     vibes: ['Spiritual DNA', 'Cosmic Alignment', 'Inner Peace']
   },
@@ -43,7 +50,8 @@ const BRANDS = [
     bg: 'linear-gradient(135deg, #2D2D2D, #000000)',
     symbol: '👑',
     icon: Crown,
-    image: SkidRowJoeImg,
+    image: SkidRowJoeLifestyle,
+    mockup: SkidRowJoeMockup,
     description: 'The unapologetic translator of street grit into regal armor.',
     vibes: ['Concrete Kings', 'Noble Grit', 'Authentic Power']
   },
@@ -52,10 +60,11 @@ const BRANDS = [
     name: 'Diva',
     tagline: 'Empowered Elegance',
     color: '#D4AF37', // Gold
-    bg: 'linear-gradient(to bottom, #4A0E4E, #000000)', // Deep Purple
+    bg: 'linear-gradient(to bottom, #4A0E4E, #000000)',
     symbol: '🌺',
     icon: Heart,
-    image: DivaImg,
+    image: DivaLifestyle,
+    mockup: DivaMockup,
     description: 'Sophisticated silhouettes infused with raw feminine strength.',
     vibes: ['Luxury Flow', 'Royal Grace', 'Golden Frequency']
   },
@@ -67,7 +76,8 @@ const BRANDS = [
     bg: 'radial-gradient(circle at top right, #001F3F, #000000)',
     symbol: '👁️',
     icon: Eye,
-    image: AlkamiImg,
+    image: AlkamiLifestyle,
+    mockup: AlkamiMockup,
     description: 'Future-forward aesthetics for the visionary mind.',
     vibes: ['Digital Soul', 'Infinite Horizon', 'Visionary Tech']
   }
@@ -75,16 +85,15 @@ const BRANDS = [
 
 export default function App() {
   const [activeBrand, setActiveBrand] = useState(0);
-  const scrollRef = useRef(null);
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white font-sans overflow-x-hidden selection:bg-[#FF3D00] selection:text-white">
+    <div className="min-h-screen bg-[#0A0A0A] text-white font-sans overflow-x-hidden selection:bg-white selection:text-black">
       {/* Dynamic Background */}
       <AnimatePresence mode="wait">
         <motion.div 
           key={activeBrand}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.4 }}
+          animate={{ opacity: 0.6 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-0 pointer-events-none"
           style={{ background: BRANDS[activeBrand].bg }}
@@ -93,22 +102,19 @@ export default function App() {
       <div className="fixed inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 px-6 py-10 flex justify-between items-center bg-gradient-to-b from-[#0A0A0A]/80 to-transparent backdrop-blur-md border-b border-white/5">
+      <nav className="fixed top-0 w-full z-50 px-6 py-8 flex justify-between items-center bg-gradient-to-b from-[#0A0A0A]/80 to-transparent backdrop-blur-md">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-3"
+          className="flex items-center gap-3 cursor-pointer"
         >
-          <div className="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center group cursor-pointer hover:bg-brand-primary transition-all">
-            <Shirt size={28} strokeWidth={2.5} className="group-hover:rotate-12 transition-transform" />
+          <div className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center">
+            <Shirt size={24} strokeWidth={2.5} />
           </div>
-          <div className="flex flex-col">
-            <span className="text-2xl font-black tracking-tighter uppercase leading-none">Doc Jordan</span>
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-neutral-500">Urban Fashions</span>
-          </div>
+          <span className="text-xl font-black tracking-tighter uppercase">Doc Jordan</span>
         </motion.div>
 
-        <div className="hidden lg:flex items-center gap-12 text-[10px] font-black uppercase tracking-[0.3em] text-neutral-400">
+        <div className="hidden lg:flex items-center gap-10 text-[10px] font-black uppercase tracking-[0.4em] text-neutral-500">
           {BRANDS.map((brand, idx) => (
             <button 
               key={brand.id} 
@@ -119,9 +125,6 @@ export default function App() {
               )}
             >
               {brand.name}
-              {activeBrand === idx && (
-                <motion.div layoutId="underline" className="absolute bottom-0 left-0 w-full h-0.5 bg-white" />
-              )}
             </button>
           ))}
         </div>
@@ -129,182 +132,188 @@ export default function App() {
         <motion.button 
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="bg-white text-black px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-[0.3em] hover:bg-white/90 transition-all shadow-[0_0_40px_rgba(255,255,255,0.1)]"
+          className="bg-white text-black px-8 py-3 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-neutral-200 transition-all shadow-xl"
         >
-          The Lab_
+          Access Lab
         </motion.button>
       </nav>
 
-      {/* Main Brand Showcase */}
-      <main className="relative z-10 pt-40 lg:pt-0 min-h-screen flex items-center px-6">
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+      {/* Hero Showcase */}
+      <main className="relative z-10 min-h-screen flex items-center px-6 pt-20">
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Content */}
-          <div className="space-y-12">
+          {/* Brand Info */}
+          <div className="lg:col-span-5 space-y-10 order-2 lg:order-1">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeBrand}
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 50 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
                 className="space-y-6"
               >
                 <div className="flex items-center gap-4">
-                  <span className="text-4xl">{BRANDS[activeBrand].symbol}</span>
-                  <h2 className="text-sm font-black uppercase tracking-[0.5em] text-neutral-500" style={{ color: BRANDS[activeBrand].color }}>
+                  <span className="text-5xl">{BRANDS[activeBrand].symbol}</span>
+                  <div className="h-[1px] w-12 bg-white/20" />
+                  <h2 className="text-[10px] font-black uppercase tracking-[0.5em]" style={{ color: BRANDS[activeBrand].color }}>
                     {BRANDS[activeBrand].tagline}
                   </h2>
                 </div>
-                <h1 className="text-7xl md:text-[10rem] font-black uppercase tracking-tighter leading-[0.8]">
-                  {BRANDS[activeBrand].name.split(' ').map((word, i) => (
-                    <span key={i} className="block">{word}</span>
-                  ))}
+                <h1 className="text-7xl md:text-[8rem] font-black uppercase tracking-tighter leading-[0.8]">
+                  {BRANDS[activeBrand].name}
                 </h1>
-                <p className="text-xl md:text-2xl text-neutral-400 font-medium max-w-xl leading-relaxed">
+                <p className="text-lg text-neutral-400 font-medium max-w-md leading-relaxed">
                   {BRANDS[activeBrand].description}
                 </p>
                 
-                <div className="flex flex-wrap gap-4 pt-4">
+                <div className="flex flex-wrap gap-3 pt-4">
                   {BRANDS[activeBrand].vibes.map((vibe) => (
-                    <span key={vibe} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest">
+                    <span key={vibe} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[8px] font-black uppercase tracking-widest text-neutral-300">
                       {vibe}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-6 pt-10">
-                  <button className="bg-white text-black px-12 py-5 rounded-full font-black uppercase text-xs tracking-[0.2em] flex items-center gap-3 hover:scale-105 transition-all shadow-2xl">
-                    Experience Drop <ArrowRight size={20} />
+                <div className="flex flex-col sm:flex-row gap-4 pt-10">
+                  <button className="bg-white text-black px-10 py-5 rounded-full font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-3 hover:scale-105 transition-all shadow-2xl">
+                    Add to collection <ArrowRight size={18} />
                   </button>
-                  <button className="bg-white/5 backdrop-blur-xl border border-white/10 text-white px-12 py-5 rounded-full font-black uppercase text-xs tracking-[0.2em] hover:bg-white/10 transition-all">
-                    View Symbolism
+                  <button className="bg-white/5 backdrop-blur-xl border border-white/10 text-white px-10 py-5 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-white/10 transition-all text-center">
+                    Full Showcase
                   </button>
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Visuals */}
-          <div className="relative aspect-[4/5] rounded-[60px] overflow-hidden group">
+          {/* Product & Lifestyle Stack */}
+          <div className="lg:col-span-7 relative order-1 lg:order-2 h-[600px] md:h-[700px] flex items-center justify-center">
+            {/* Lifestyle Image (Background) */}
             <AnimatePresence mode="wait">
-              <motion.img 
-                key={activeBrand}
-                src={BRANDS[activeBrand].image} 
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
+              <motion.div 
+                key={activeBrand + 'life'}
+                initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
+                animate={{ opacity: 0.3, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 1.1 }}
                 transition={{ duration: 1 }}
-                alt="" 
-                className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000"
-              />
+                className="absolute inset-0 z-0 rounded-[60px] overflow-hidden blur-[2px]"
+              >
+                <img src={BRANDS[activeBrand].image} alt="" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/40" />
+              </motion.div>
             </AnimatePresence>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-60" />
-            
-            {/* Navigation Arrows */}
-            <div className="absolute bottom-10 right-10 flex gap-4">
-              <button 
-                onClick={() => setActiveBrand((prev) => (prev - 1 + BRANDS.length) % BRANDS.length)}
-                className="p-4 bg-white/10 backdrop-blur-xl rounded-full hover:bg-white/20 transition-all border border-white/20"
+
+            {/* Actual Product Mockup (Foreground) */}
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={activeBrand + 'mock'}
+                initial={{ opacity: 0, y: 50, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -50, scale: 1.1 }}
+                transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+                className="relative z-10 w-full max-w-[500px] drop-shadow-[0_50px_100px_rgba(0,0,0,0.8)]"
               >
-                <ChevronLeft size={24} />
-              </button>
-              <button 
-                onClick={() => setActiveBrand((prev) => (prev + 1) % BRANDS.length)}
-                className="p-4 bg-white/10 backdrop-blur-xl rounded-full hover:bg-white/20 transition-all border border-white/20"
-              >
-                <ChevronRight size={24} />
-              </button>
+                <img 
+                  src={BRANDS[activeBrand].mockup} 
+                  alt={BRANDS[activeBrand].name} 
+                  className="w-full h-auto rounded-[40px] transform transition-transform group-hover:scale-105"
+                />
+                <motion.div 
+                   animate={{ y: [0, -10, 0] }}
+                   transition={{ repeat: Infinity, duration: 4 }}
+                   className="absolute -top-10 -right-10 bg-white text-black p-6 rounded-full shadow-2xl font-black text-xl uppercase tracking-tighter hidden md:block"
+                >
+                   {BRANDS[activeBrand].symbol}
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Navigation Overlays */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-4 z-20">
+              {BRANDS.map((_, i) => (
+                <button 
+                  key={i}
+                  onClick={() => setActiveBrand(i)}
+                  className={cn(
+                    "w-2 h-2 rounded-full transition-all",
+                    activeBrand === i ? "bg-white w-8" : "bg-white/20"
+                  )}
+                />
+              ))}
             </div>
           </div>
         </div>
       </main>
 
-      {/* Vibration Ticker */}
-      <div className="fixed bottom-0 w-full z-40 bg-white py-4 overflow-hidden whitespace-nowrap">
-        <motion.div 
-          animate={{ x: [0, -1000] }}
-          transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
-          className="flex gap-20 items-center"
-        >
-          {[...Array(10)].map((_, i) => (
-            <span key={i} className="text-black text-2xl font-black uppercase tracking-tighter flex items-center gap-4">
-              {BRANDS[activeBrand].name} <Sparkles size={24} className="text-[#FF3D00]" /> {BRANDS[activeBrand].tagline} <Sparkles size={24} className="text-[#FF3D00]" /> High Vibration Synthesis
-            </span>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Symbolism Gallery */}
-      <section className="py-40 px-6 bg-[#050505]">
-        <div className="max-w-7xl mx-auto space-y-20">
-          <div className="text-center space-y-6">
-            <h2 className="text-sm font-black uppercase tracking-[0.8em] text-neutral-500">Symbolic Alignment</h2>
-            <h3 className="text-6xl md:text-8xl font-black uppercase tracking-tighter">The Visual DNA</h3>
-          </div>
-
+      {/* Frequency Details Grid */}
+      <section className="py-40 px-6 border-t border-white/5">
+        <div className="max-w-7xl mx-auto space-y-32">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {BRANDS.map((brand) => (
+            {BRANDS.map((brand, idx) => (
               <motion.div 
                 key={brand.id}
-                whileHover={{ y: -10 }}
-                className="bg-neutral-900/50 p-10 rounded-[40px] border border-white/5 space-y-8 flex flex-col items-center text-center group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                onClick={() => setActiveBrand(idx)}
+                className={cn(
+                   "group cursor-pointer bg-neutral-900/40 p-8 rounded-[40px] border border-white/5 space-y-6 transition-all",
+                   activeBrand === idx ? "border-white/20 ring-1 ring-white/10 shadow-2xl" : "hover:border-white/10"
+                )}
               >
-                <div className="text-7xl group-hover:scale-125 transition-transform duration-500">{brand.symbol}</div>
-                <div className="space-y-4">
-                  <h4 className="text-3xl font-black uppercase tracking-tighter">{brand.name}</h4>
-                  <p className="text-neutral-500 text-sm font-medium leading-relaxed">
-                    Embodying the {brand.tagline.toLowerCase()} frequency through precision craftsmanship.
-                  </p>
+                <div className="aspect-square rounded-3xl overflow-hidden bg-black mb-4">
+                  <img src={brand.mockup} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 </div>
-                <brand.icon className="text-white/20 group-hover:text-white transition-colors" size={40} />
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <h4 className="text-2xl font-black uppercase tracking-tighter">{brand.name}</h4>
+                    <brand.icon size={20} className="text-neutral-500 group-hover:text-white transition-colors" />
+                  </div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">{brand.tagline}</p>
+                </div>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Footer */}
-      <footer className="py-40 px-6 border-t border-white/5">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-20">
-          <div className="space-y-8">
-             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-white text-black rounded-full flex items-center justify-center">
-                <Shirt size={18} strokeWidth={2.5} />
-              </div>
-              <span className="text-xl font-black tracking-tighter uppercase">Doc Jordan</span>
+          {/* Symbolic Vibration Block */}
+          <div className="bg-white text-black p-20 rounded-[80px] overflow-hidden relative group">
+            <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:rotate-12 transition-transform duration-1000">
+              <Sparkles size={300} />
             </div>
-            <p className="text-neutral-500 max-w-xs font-medium leading-relaxed">
-              Four distinct frequencies. Zero market overlap. One visionary creator.
-            </p>
-            <div className="flex gap-6">
-              <Instagram size={24} className="text-neutral-500 hover:text-white transition-colors cursor-pointer" />
-              <Twitter size={24} className="text-neutral-500 hover:text-white transition-colors cursor-pointer" />
-            </div>
-          </div>
-          
-          <div className="space-y-8">
-            <h5 className="font-black uppercase tracking-[0.2em] text-sm">Frequency Matrix</h5>
-            <div className="grid grid-cols-2 gap-4 text-[10px] font-black uppercase tracking-widest text-neutral-500">
-              {BRANDS.map(b => (
-                <span key={b.id} className="hover:text-white cursor-pointer transition-colors">{b.name}</span>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-8">
-            <h5 className="font-black uppercase tracking-[0.2em] text-sm">Join the frequency</h5>
-            <div className="flex gap-2">
-              <input 
-                type="email" 
-                placeholder="EMAIL" 
-                className="bg-neutral-900 border-none rounded-full px-6 py-4 text-[10px] font-black uppercase tracking-widest flex-1 focus:ring-1 focus:ring-white"
-              />
-              <button className="bg-white text-black p-4 rounded-full hover:bg-brand-primary transition-all">
-                <ArrowRight size={20} />
+            <div className="relative z-10 max-w-3xl space-y-8">
+              <h3 className="text-sm font-black uppercase tracking-[0.5em] text-[#FF3D00]">The Philosophy</h3>
+              <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-[0.9]">
+                High Frequency <br /> <span className="italic">Hardware</span>
+              </h2>
+              <p className="text-xl font-medium leading-relaxed">
+                Doc Jordan Urban Clothing isn’t just fashion—it’s a frequency recalibration. Each piece in our four collections is designed to resonate with a specific visual and spiritual DNA.
+              </p>
+              <button className="flex items-center gap-3 font-black uppercase text-xs tracking-[0.3em] hover:gap-6 transition-all border-b-2 border-black pb-2">
+                Learn the Symbolism <ExternalLink size={16} />
               </button>
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Footer Ticker */}
+      <div className="bg-white py-6 overflow-hidden whitespace-nowrap border-t border-black/5">
+        <motion.div 
+          animate={{ x: [0, -1000] }}
+          transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+          className="flex gap-20 items-center"
+        >
+          {[...Array(10)].map((_, i) => (
+            <span key={i} className="text-black text-3xl font-black uppercase tracking-tighter flex items-center gap-4">
+              {BRANDS[activeBrand].name} <Zap size={24} className="text-[#FF3D00]" /> Urban Royalty <Zap size={24} className="text-[#FF3D00]" /> High Vibration <Zap size={24} className="text-[#FF3D00]" /> Doc Jordan
+            </span>
+          ))}
+        </motion.div>
+      </div>
+      
+      <footer className="py-20 px-6 text-center text-[10px] font-black uppercase tracking-[0.5em] text-neutral-500">
+        © 2026 Doc Jordan Urban Clothing Matrix
       </footer>
     </div>
   );
