@@ -168,7 +168,8 @@ export default function App() {
                </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="py-20 px-6 border-t border-white/5">
